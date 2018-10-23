@@ -1,0 +1,60 @@
+/*table {*/
+/*border-collapse: separate;*/
+/*border-spacing: 0;*/
+/*color: #4a4a4d;*/
+/*font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+/*}*/
+/*th,*/
+/*td {*/
+/*padding: 10px 15px;*/
+/*vertical-align: middle;*/
+/*}*/
+/*thead {*/
+/*background: #395870;*/
+/*color: #fff;*/
+/*}*/
+/*th {*/
+/*font-weight: bold;*/
+/*}*/
+/*th:first-child {*/
+/*text-align: left;*/
+/*}*/
+/*tbody tr:nth-child(even) {*/
+/*background: #f0f0f2;*/
+/*}*/
+/*td {*/
+/*border-bottom: 1px solid #cecfd5;*/
+/*border-right: 1px solid #cecfd5;*/
+/*}*/
+/*td:first-child {*/
+/*border-left: 1px solid #cecfd5;*/
+/*}*/
+/*.book-title {*/
+/*color: #395870;*/
+/*display: block;*/
+/*}*/
+/*.item-stock,*/
+/*.item-qty {*/
+/*text-align: center;*/
+/*}*/
+/*.item-price {*/
+/*text-align: right;*/
+/*}*/
+/*.item-multiple {*/
+/*display: block;*/
+/*}*/
+/*tfoot {*/
+/*text-align: right;*/
+/*}*/
+/*tfoot tr:last-child {*/
+/*background: #f0f0f2;*/
+/*}*/
+table {
+  width: 100%;
+}
+
+th {
+  border-color: red;
+  font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+
+}

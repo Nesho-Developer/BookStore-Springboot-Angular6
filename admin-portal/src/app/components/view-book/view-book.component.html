@@ -1,0 +1,77 @@
+<div class="container">
+  <a mat-button routerLink="/book-list"> Back</a>
+  <span>|</span>
+  <a mat-button (click)="onSelect(book)">Edit</a>
+  <mat-grid-list cols="9">
+    <mat-grid-tile [colspan]="3" [rowspan]="3">
+      <mat-card class="example-card">
+        <img mat-card-image [src]="imagepath">
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="6" [rowspan]="0.5">
+      <h3>{{book.title}}</h3>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="3" [rowspan]="2">
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <p><strong>Author:</strong>{{book.author}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Publisher:</strong>{{book.publisher}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Publication Date:</strong>{{book.publicationDate}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Language:</strong>{{book.language}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Category:</strong>{{book.category}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Pages:</strong>{{book.numberOfPages}}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="3" [rowspan]="2">
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <p><strong>Format:</strong>{{book.format}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Isbn:</strong>{{book.isbn}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Shipping weight:</strong>{{book.shippingWeight}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>List Price:</strong>{{book.listPrice}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Our Price:</strong>{{book.ourPrice}}</p>
+        </mat-list-item>
+
+        <mat-list-item role="listitem">
+          <p><strong>Stock Amount:</strong>{{book.inStockNumber}}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="9" [rowspan]="1">
+      <p><strong>Description:</strong>{{book.description}}</p>
+    </mat-grid-tile>
+
+
+  </mat-grid-list>
+</div>

@@ -1,0 +1,83 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+hr {
+  border: none;
+  height: 1px;
+  /* Set the hr color */
+  color: #333; /* old IE */
+  background-color: #333; /* Modern Browsers */
+}
+
+body {
+  font-family: Tahoma, Serif;
+  margin: 0;
+  padding-top: 0;
+}
+
+mat-input-container {
+  width: 100%;
+}
+
+mat-select {
+  width: 100%;
+}
+
+mat-slide-toggle {
+  width: 100%;
+}
+
+.container {
+  width: 90%;
+}
+
+.section-headline {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px;
+  color: #fff;
+  margin: auto;
+  text-align: center;
+  margin-top: 75px;
+}
+
+.section-headline span {
+  background-color: #231F20;
+  padding: 5px 22px;
+}
+
+.home-headline {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px;
+  color: #fff;
+  margin: auto;
+  text-align: center;
+
+}
+
+.home-headline span {
+  background-color: #231F20;
+  padding: 5px 22px;
+}
+
+.box {
+  border: 1px solid red;
+}
+
+.li {
+  display: inline;
+  white-space: nowrap;
+}
+
+.box {
+  border: 1px solid black;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}

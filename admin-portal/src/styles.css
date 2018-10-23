@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.box {
+  border: 1px solid black;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  /* Set the hr color */
+  color: #333; /* old IE */
+  background-color: #333; /* Modern Browsers */
+}
+
+body {
+  font-family: Tahoma, Serif;
+  margin: 0;
+}
+
+mat-input-field {
+  width: 100%;
+}
+
+mat-select {
+  width: 100%;
+}
+
+mat-slide-toggle {
+  width: 100%;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.primary {
+  color: white;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}

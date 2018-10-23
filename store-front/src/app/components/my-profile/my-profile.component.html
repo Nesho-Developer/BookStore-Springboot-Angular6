@@ -1,0 +1,559 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xl-8">
+      <h2 class="section-headline"><span>My Profile</span></h2>
+    </div>
+    <div class="col-xl-4">
+      <img src="../../../assets/image/logo.png" class="img-responsive right" style="width:400px; z-index:1;"/>
+    </div>
+    <img src="../../../assets/image/wood.png" class="img-responsive right"
+         style="position: absolute; margin-top: 90px; z-index: -2;"/>
+  </div>
+
+  <hr style="position: absolute;width:85%; height:6px; background-color: #333; z-index:-1; margin-top: -140px;"/>
+
+  <div *ngIf="!dataFetched" style="margin-top: 50px;">
+    <div class="row">
+      <div class="col-xl-4">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:30px;width: 100%">
+    <div class="col-xl-2"></div>
+    <div *ngIf="dataFetched">
+      <div style="width: 100%;background-color: #f46b42">
+        <div>
+          <div class="card" style="border:none;">
+            <div class="card-body" style="background-color: #ededed; margin-top: 20px;">
+              <mat-tab-group [selectedIndex]="selectedProfileTab" style="height: auto;overflow: hidden;">
+                <mat-tab label="Edit" style="width: 100%;height: auto">
+                  <div style="margin-top: 20px;">
+                    <div class="alert alert-danger" *ngIf="incorrectPassword">
+                      <strong>Incorrect Password!</strong> Please enter the correct password for the current user.
+                    </div>
+                    <div class="alert alert-success" *ngIf="updateSuccess">
+                      <strong>Update Success!</strong>
+                    </div>
+                  </div>
+                  <form #fupdate="ngForm" (submit)="onUpdateUserInfo()">
+
+                    <div class="bg-info" *ngIf="updateUserInfo">User info updated.</div>
+                    <div>
+                      <div>
+                        <div>
+
+                          <mat-form-field style="width: 100%">
+                            <input matInput placeholder="First Name" id="firstName" name="firstName"
+                                   [(ngModel)]="user.firstName"/>
+                          </mat-form-field>
+                        </div>
+                        <div>
+
+                          <mat-form-field style="width: 100%">
+                            <input placeholder="Last Name" matInput id="lastName" name="lastName"
+                                   [(ngModel)]="user.lastName"/>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      &nbsp;<span *ngIf="usernameExists" style="color:red">Username already exists. Choose a different one.</span>
+                      <mat-form-field>
+                        <input placeholder="Username " required matInput="" id="username" name="username"
+                               [(ngModel)]="user.username"/>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <mat-form-field>
+                        <input placeholder="Password " matInput type="password" required id="password" name="password"
+                               [(ngModel)]="currentPassword"/>
+                      </mat-form-field>
+                      <p style="color:#828282;">Enter your current password to change the E-mail address or
+                        Password.</p>
+                    </div>
+                    <div class="form-group">
+                      &nbsp;<span *ngIf="emailExists"
+                                  style="color:red">Email already exists. Choose a different one.</span>
+                      <mat-form-field>
+                        <input matInput placeholder="Email " required type="email" id="email" name="email"
+                               [(ngModel)]="user.email"/>
+                      </mat-form-field>
+                      <p style="color:#828282;">A valid e-mail address. All e-mails from the system will be sent to this
+                        address.</p>
+                    </div>
+                    <div>
+                      &nbsp;<span id="checkPasswordMatch" style="color:red;"></span>
+                      <mat-form-field>
+                        <input matInput placeholder="New Password " type="password" id="txtNewPassword"
+                               name="txtNewPassword" [(ngModel)]="newPassword"/>
+                      </mat-form-field>
+                    </div>
+                    <div>
+
+                      <mat-form-field>
+                        <input matInput placeholder="Conform New Password" type="password" required
+                               id="txtConfirmPassword" name="txtNewPassword"/>
+                      </mat-form-field>
+                    </div>
+                    <button mat-raised-button type="submit" [disabled]="!fupdate.valid" class="mat-primary"
+                            id="udpateuserInfoButton">Save
+                    </button>
+                  </form>
+                </mat-tab>
+                <mat-tab label="Payment">
+                  <br><br>
+                  <div>
+                    <p *ngIf="defaultPaymentSet">Default payment set successfully!</p>
+                    <mat-tab-group (selectedIndexChnage)="selectedBillingChange($event)"
+                                   [selectedIndex]="selectedBillingTab">
+                      <mat-tab label="List of Credit Cards">
+                        <form #fdefaultPayment="ngForm" (submit)="setDefaultPayment()" method="post">
+
+                          <table class="table">
+                            <thead>
+                            <tr>
+                              <th>Default</th>
+                              <th>Credit Card</th>
+                              <th>Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let userPayment of userPayments">
+                              <td>
+                                <input type="radio" name="defaultUserPaymentId" [(ngModel)]="defaultUserPaymentId"
+                                       [value]="userPayment.id"/>
+                                <span>default</span>
+                              </td>
+                              <td>{{userPayment.cardName}}</td>
+                              <td>
+                                <a mat-mini-fab color="accent" (click)="onUpdatePayment(userPayment)"><i
+                                  class="fa fa-pencil"></i></a>
+                                <a mat-mini-fab color="accent" (click)="onRemovePayment(userPayment.id)"><i
+                                  class="fa fa-times"></i></a>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                          <button [disabled]="!fdefaultPayment.valid" mat-raised-button class="mat-primary"
+                                  type="submit">Save
+                          </button>
+                        </form>
+                      </mat-tab>
+                      <mat-tab label="Add(Update) Credit Card">
+                        <form #fnewPayment="ngForm" (submit)="onNewPayment()" method="post">
+                          <div class="bg-info" *ngIf="updateUserPaymentInfo">User info updated.</div>
+
+                          <div class="form-group">
+                            <!--<h5>* Give a name for your card:</h5>-->
+                            <mat-form-field style="width: 50%;margin-top: 30px">
+                              <input matInput id="cardName" placeholder="Card Name" name="cardName" required="required"
+                                     [(ngModel)]="userPayment.cardName"/>
+                            </mat-form-field>
+                            <mat-form-field style="width: 50%">
+                              <input matInput id="billingName" placeholder="Receiver name" name="userBillingName"
+                                     required="required" [(ngModel)]="userBilling.userBillingName"/>
+                            </mat-form-field>
+                          </div>
+
+                          <!-- Billing Address -->
+                          <div class="form-group">
+                            <mat-form-field style="width: 50%">
+                              <input matInput id="billAddress" placeholder="Street Address 1" name="userBillingStreet1"
+                                     required="required" [(ngModel)]="userBilling.userBillingStreet1"/>
+                            </mat-form-field>
+                            <mat-form-field style="width: 50%">
+                              <input matInput="" placeholder="Street Address 2" name="userBillingStreet2"
+                                     [(ngModel)]="userBilling.userBillingStreet2"/>
+                            </mat-form-field>
+                          </div>
+                          <div class="form-group">
+                            <mat-form-field style="width: 35%">
+                              <input matInput="" id="userBillingCity" placeholder="Your Billing City"
+                                     name="userBillingCity" required="required"
+                                     [(ngModel)]="userBilling.userBillingCity"/>
+                            </mat-form-field>
+
+                            <mat-form-field style="width: 35%">
+                              <mat-select name="billingstate" placeholder="Billing State"
+                                          [(ngModel)]="userBilling.userBillingState" required>
+                                <mat-option value="" disabled>-- state --</mat-option>
+                                <mat-option *ngFor="let state of usState" [value]="state">
+                                  {{state}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field style="width: 30%">
+                              <input matInput id="userBillingZipcode" placeholder="Zipcode" name="userBillingZipcode"
+                                     required="required" [(ngModel)]="userBilling.userBillingZipcode"/>
+                            </mat-form-field>
+                          </div>
+
+
+                          <!-- User Payment -->
+
+                          <div class="form-group">
+                            <h4>Credit Card Information</h4>
+                          </div>
+                          <div>
+                            <div class="col-xs-12">
+                              <img src="../../../assets/image/creditcard.png" class="img-responsive"/>
+                              <br>
+                              <div class="form-group" style="margin-top: 30px">
+                                <mat-form-field style="width: 100%">
+                                  <mat-select placeholder="Select Card Type" name="cardType"
+                                              [(ngModel)]="userPayment.type" required>
+                                    <mat-option value="" disabled>-- Card Type --</mat-option>
+                                    <mat-option value="visa">Visa</mat-option>
+                                    <mat-option value="mastercard">Mastercard</mat-option>
+                                    <mat-option value="discover">Discover</mat-option>
+                                    <mat-option value="amex">American Express</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="form-group">
+                                <mat-form-field style="width: 100%">
+                                  <input matInput id="cardholder" placeholder="Card Holder Name" name="cardHolderName"
+                                         required="required" [(ngModel)]="userPayment.holderName"/>
+                                </mat-form-field>
+                              </div>
+                              <div class="form-group">
+
+                                <div class="input-group">
+                                  <mat-form-field style="width: 100%">
+                                    <input matInput="tel" required="required" id="cardNumber" name="cardNumber"
+                                           placeholder="Valid Card Number" [(ngModel)]="userPayment.cardNumber"/>
+                                  </mat-form-field>
+                                  <!--<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>-->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div>
+                              <div class="form-group">
+
+                                <mat-form-field style="width: 35%">
+                                  <mat-select placeholder="Expiration Date" name="expiryMonth" required="required"
+                                              [(ngModel)]="userPayment.expiryMonth">
+                                    <mat-option value="" disabled="disabled">
+                                      -- Month --
+                                    </mat-option>
+                                    <mat-option value="1">Jan (01)</mat-option>
+                                    <mat-option value="2">Feb (02)</mat-option>
+                                    <mat-option value="3">Mar (03)</mat-option>
+                                    <mat-option value="4">Apr (04)</mat-option>
+                                    <mat-option value="5">May (05)</mat-option>
+                                    <mat-option value="6">Jun (06)</mat-option>
+                                    <mat-option value="7">July (07)</mat-option>
+                                    <mat-option value="8">Aug (08)</mat-option>
+                                    <mat-option value="9">Sep (09)</mat-option>
+                                    <mat-option value="10">Oct (10)</mat-option>
+                                    <mat-option value="11">Nov (11)</mat-option>
+                                    <mat-option value="12">Dec (12)</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field style="width: 35%">
+                                  <mat-select placeholder="Expiry Year" name="expiryYear" required="required"
+                                              [(ngModel)]="userPayment.expiryYear">
+                                    <mat-option value="" disabled="disabled">
+                                      -- Year --
+                                    </mat-option>
+                                    <mat-option value="18">2018</mat-option>
+                                    <mat-option value="19">2019</mat-option>
+                                    <mat-option value="20">2020</mat-option>
+                                    <mat-option value="21">2021</mat-option>
+                                    <mat-option value="22">2022</mat-option>
+                                    <mat-option value="23">2023</mat-option>
+                                    <mat-option value="24">2024</mat-option>
+                                    <mat-option value="25">2025</mat-option>
+                                    <mat-option value="26">2026</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field style="width: 30%">
+                                  <input id="cardCVC" matInput="tel" name="cardCVC" placeholder="CVC"
+                                         [(ngModel)]="userPayment.cvc"/>
+                                </mat-form-field>
+                              </div>
+                            </div>
+
+                          </div>
+                          <button mat-raised-button type="submit" [disabled]="! fnewPayment.valid" class="mat-primary">
+                            Save All
+                          </button>
+
+                        </form>
+                      </mat-tab>
+
+                    </mat-tab-group>
+                  </div>
+
+                </mat-tab>
+                <!--shipping -->
+                <mat-tab label="Shipping">
+                  <br>
+                  <br>
+                  <div>
+                    <p *ngIf="defaultShippingSet">Default shipping set successfully!</p>
+                    <mat-tab-group (selectedIndexChange)="selectedShippingChange($event)"
+                                   [selectedIndex]="selectedShippingTab">
+                      <mat-tab label="List of Shipping Addresses">
+                        <form #fdefaultsh="ngForm" (submit)="setDefaultShipping()" method="post">
+                          <table class="table">
+                            <thead>
+                            <tr>
+                              <th>Default</th>
+                              <th>Shipping Address</th>
+                              <th>Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let userShipping of userShippingList">
+                              <td>
+                                <mat-radio-group name="defaultUserShippingIdn" [(ngModel)]="defaultUserShippingId">
+                                  <mat-radio-button
+
+                                    [value]="userShipping.id">
+                                    default
+                                  </mat-radio-button>
+
+                                </mat-radio-group>
+                              </td>
+                              <td>{{userShipping.userShippingStreet1}}, {{userShipping.userShippingCity}},
+                                {{userShipping.userShippingState}}
+                              </td>
+                              <td>
+                                <a mat-button (click)="onUpdateShipping(userShipping)"><i class="fa fa-pencil"></i></a>
+                                <a mat-button (click)="onRemoveShipping(userShipping.id)"><i
+                                  class="fa fa-times"></i></a>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                          <button [disabled]="! fdefaultsh" mat-raised-button class="mat-primary" type="submit">Save
+                          </button>
+                        </form>
+                      </mat-tab>
+                      <mat-tab label="Add(Update) Shipping Address">
+                        <form #faddsh="ngForm" (submit)="onNewShipping()" method="post">
+                          <div class="bg-info" *ngIf="updateUserShippingInfo">User info updated.</div>
+
+                          <div class="form-group">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput id="shippingName" placeholder="Receiver Name" name="userShippingName"
+                                     required="required" [(ngModel)]="userShipping.userShippingName"/>
+                            </mat-form-field>
+                          </div>
+                          <div class="form-group">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput id="shippingAddress" placeholder="Street Address 1"
+                                     name="userShippingStreet1" required="required"
+                                     [(ngModel)]="userShipping.userShippingStreet1"/>
+                            </mat-form-field>
+                          </div>
+                          <div class="form-group">
+                            <mat-form-field style="width: 100%;">
+                              <input matInput placeholder="Street Address 2" name="userShippingStreet2"
+                                     [(ngModel)]="userShipping.userShippingStreet2"/>
+                            </mat-form-field>
+                          </div>
+                          <div>
+
+                            <div class="form-group">
+                              <mat-form-field style="width: 35%;">
+                                <input matInput id="shippingCity" placeholder="Your Shipping City"
+                                       name="userShippingCity" required="required"
+                                       [(ngModel)]="userShipping.userShippingCity"/>
+                              </mat-form-field>
+                              <mat-form-field style="width: 35%;">
+                                <mat-select placeholder="userShippingState" id="shippingState" name="userShippingState"
+                                            [(ngModel)]="userShipping.userShippingState" required="required">
+                                  <mat-option value="" disabled>-- state --</mat-option>
+                                  <mat-option *ngFor="let state of usState" [value]="state">{{state}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <mat-form-field style="width: 30%;">
+                                <input matInput id="userShippingZipcode" placeholder="Zipcode"
+                                       name="userShippingZipcode" required="required"
+                                       [(ngModel)]="userShipping.userShippingZipcode"/>
+                              </mat-form-field>
+
+                            </div>
+
+                          </div>
+
+
+                          <button [disabled]="! faddsh.valid" mat-raised-button type="submit" class="mat-primary">
+                            Save All
+                          </button>
+                        </form>
+                      </mat-tab>
+
+                    </mat-tab-group>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Order History">
+                  <div class="card-group">
+                    <div class="card " style="border: none;">
+                      <div class="card-body" style="background-color: #ededed; margin-top: 20px;">
+                        <table class="table table-sm table-inverse">
+                          <thead>
+                          <tr>
+                            <th>Order Date</th>
+                            <th>Order Number</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let order of orderList">
+                            <td>
+                              <a mat-button class="pointer" (click)="onDisplayOrder(order)"><span
+                              >{{order.orderDate}}</span></a>
+                            </td>
+                            <td>{{order.id}}</td>
+                            <td>{{order.orderTotal}}</td>
+                            <td>{{order.orderStatus}}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <div *ngIf="displayOrderDetail">
+                          <div class="row">
+                            <div class="col-xl-12">
+                              <div class="text-center">
+                                <h2>Order Detail for purchase #<span>{{order.id}}</span></h2>
+                              </div>
+                              <hr/>
+                              <div class="row">
+                                <div class="col-xl-4">
+                                  <div class="card  height">
+                                    <div class="card-header"><strong>Billing Details</strong>
+                                    </div>
+                                    <div class="card-body">
+                                      <span>{{order.billingAddress.billingAddressName}}</span>
+                                      <br/>
+                                      <span>{{order.billingAddress.billingAddressStreet1}} {{order.billingAddress.billingAddressStreet2}}</span>
+                                      <br/>
+                                      <span>{{order.billingAddress.billingAddressCity}}</span>
+                                      <br/>
+                                      <span>{{order.billingAddress.billingAddressState}}</span>
+                                      <br/>
+                                      <span>{{order.billingAddress.billingAddressZipcode}}</span>
+                                      <br/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-4">
+                                  <div class="card height">
+                                    <div class="card-header"><strong>Payment Information</strong>
+                                    </div>
+                                    <div class="card-body">
+                                      <span>{{order.payment.holderName}}</span>
+                                      <br/> Visa
+                                      <br/>
+                                      <span>{{order.payment.cardNumber}}</span>
+                                      <br/>
+                                      <span>Exp Date:</span> <span>{{order.payment.expiryMonth}}</span>/<span>{{order.payment.expiryYear}}</span>
+                                      <br/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xl-4">
+                                  <div class="card height">
+                                    <div class="card-header"><strong>Shipping Address</strong>
+                                    </div>
+                                    <div class="card-body">
+                                      <span>{{order.shippingAddress.shippingAddressName}}</span>
+                                      <br/>
+                                      <span>{{order.shippingAddress.shippingAddressStreet1}}' '{{order.shippingAddress.shippingAddressStreet2}}</span>
+                                      <br/>
+                                      <span>{{order.shippingAddress.shippingAddressCity}}</span>
+                                      <br/>
+                                      <span>{{order.shippingAddress.shippingAddressState}}</span>
+                                      <br/>
+                                      <span>{{order.shippingAddress.shippingAddressZipcode}}</span>
+                                      <br/>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="card">
+                                <div class="card-header">
+                                  <h3 class="text-center"><strong>Order summary</strong></h3>
+                                </div>
+                                <div class="card-body">
+                                  <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                      <thead>
+                                      <tr>
+                                        <td><strong>Item Name</strong></td>
+                                        <td class="text-center"><strong>Item Price</strong></td>
+                                        <td class="text-center"><strong>Item Quantity</strong>
+                                        </td>
+                                        <td class="text-right"><strong>Total</strong></td>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let cartItem of cartItemList">
+                                        <td>{{cartItem.book.title}}
+                                        </td>
+                                        <td class="text-center">{{cartItem.book.ourPrice}}
+                                        </td>
+                                        <td class="text-center">
+                                          {{cartItem.qty}}
+                                        </td>
+                                        <td class="text-right">{{cartItem.subtotal}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td class="highrow"></td>
+                                        <td class="highrow"></td>
+                                        <td class="highrow text-center">
+                                          <strong>Subtotal</strong></td>
+                                        <td class="highrow text-right">{{order.orderTotal}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td class="emptyrow"></td>
+                                        <td class="emptyrow"></td>
+                                        <td class="emptyrow text-center"><strong>Tax</strong>
+                                        </td>
+                                        <td class="emptyrow text-right">{{order.orderTotal*0.06}}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
+                                        <td class="emptyrow"></td>
+                                        <td class="emptyrow text-center"><strong>Total</strong>
+                                        </td>
+                                        <td class="emptyrow text-right">{{order.orderTotal*1.06}}
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+

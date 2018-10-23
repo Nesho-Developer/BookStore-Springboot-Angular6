@@ -1,0 +1,14 @@
+.mat-tab-body-content {
+  height: unset;
+  overflow: unset;
+}
+
+hr.style-five {
+  border: 0;
+  height: 0; /* Firefox... */
+  box-shadow: 0 0 10px 1px black;
+}
+
+hr.style-five:after { /* Not really supposed to work, but does */
+  content: "\00a0"; /* Prevent margin collapse */
+}

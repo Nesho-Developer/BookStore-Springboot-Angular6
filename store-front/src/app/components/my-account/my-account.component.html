@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xl-8">
+      <h2 class="section-headline"><span>My Account</span></h2>
+    </div>
+    <div class="col-xl-4">
+      <img src="../../../assets/image/logo.png" class="img-fluid right"
+           style=" width: 400px;z-index: 1;">
+    </div>
+    <img src="../../../assets/image/wood.png" class="img-thumbnail right"
+         style="position: absolute; margin-top: 90px; z-index: -2;">
+  </div>
+  <hr style="position: absolute;width: 85%; height: 6px;margin-top: -105px; z-index: -1;"/>
+  <div class="row" style="margin-top: 60px">
+    <div class="col-xl-4"></div>
+    <div class="col-xl-9">
+      <div>
+        <div class="card" style="border: none">
+          <div class="card-body" style="margin-top: 20px;background-color: #ededed">
+            <mat-tab-group>
+              <mat-tab label="Login">
+                <div style="margin-top: 20px">
+                  <div *ngIf="errorLogin" style="color: red">{{errorMessage}}</div>
+                  <form (submit)="onLogin()">
+                    <div class="form-group">
+                      <mat-label>Username :*</mat-label>
+                      <mat-form-field style="background-color: #ededcc;width: 100%">
+                        <input matInput placeholder="UserName ..."
+                               id="username" name="username" [(ngModel)]="credential.username" required
+                               autofocus/>
+                        <!--<p style="color: gray">Enter Your Username</p>-->
+                      </mat-form-field>
+
+                    </div>
+                    <div class="form-group">
+                      <mat-label>Password :*</mat-label>
+                      <input class="form-control" type="password"
+                             id="password" name="password" [(ngModel)]="credential.password" required/>
+                      <p style="color: gray">Enter Your Password</p>
+                    </div>
+                    <div class="form-group">
+                      <button mat-raised-button color="primary">Login</button>
+
+                    </div>
+
+                  </form>
+                </div>
+              </mat-tab>
+              <mat-tab label="New Account">
+                <div style="margin-top: 20px">
+                  <div class="alert alert-info alert-primary" *ngIf="emailSent">
+                    Email Has Been Send to Your Email Address you just Rigistered .
+                    please validate your email and update your password info .
+                  </div>
+                  <form (submit)="onNewAccount()">
+                    <div class="form-group">
+                      <mat-label>Username :*</mat-label>
+                      &nbsp;<span *ngIf="usernameExists" style="color: red">
+                     Username Exist, Please Choose another one.</span>
+                      <input class="form-control" matInput
+                             id="newuser" name="newuser" [(ngModel)]="username" [required]="true"
+                             autofocus/>
+                      <p style="color: gray">Enter Your Username</p>
+                    </div>
+                    <div class="form-group">
+                      <mat-label>Email :*</mat-label>
+                      &nbsp;<span *ngIf="emailExists" style="color: red">
+                     Email Exist, Please Choose another one.</span>
+                      <input class="form-control" matInput
+                             id="newuseremail" name="newuseremail" [(ngModel)]="email" required
+                             autofocus/>
+                      <p style="color: gray">
+                        A valid E-mail Address,
+                        All e-mail from system will bd sent to this address .
+                      </p>
+                    </div>
+                    <div class="form-group">
+                      <button mat-button color="primary" type="submit">Create Account</button>
+
+                    </div>
+                  </form>
+                </div>
+              </mat-tab>
+              <mat-tab label="Forget Password">
+                <div style="margin-top: 20px">
+                  <div class="alert alert-info alert-primary" *ngIf="emailNotExists">
+                    Email not exist
+                  </div>
+                  <div class="alert-success" *ngIf="forgetPasswordEmailSent">
+                    Email Sent.
+                  </div>
+                  <form (submit)="onForgetPassword()">
+                    <div class="form-group">
+                      <mat-label>Email :*</mat-label>
+
+                      <input class="form-control" matInput
+                             id="recoveremail" name="recoveremail" [(ngModel)]="recoverEmail" required/>
+                      <p style="color: gray">Enter your Registeration Email</p>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" mat-raised-button color="primary">Submit</button>
+
+                    </div>
+                  </form>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

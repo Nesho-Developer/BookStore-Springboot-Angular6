@@ -40,8 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().disable().httpBasic().and().authorizeRequests()
-                .antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+                .cors().disable()
+                .httpBasic().and().authorizeRequests()
+                .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .antMatchers("/user/**").hasAnyAuthority("USER")
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and().exceptionHandling().accessDeniedPage("/error.html");
 
 //        http.csrf().disable()
 //              //  .cors().disable().httpBasic()

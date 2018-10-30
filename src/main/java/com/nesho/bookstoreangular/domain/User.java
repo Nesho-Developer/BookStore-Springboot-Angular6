@@ -18,12 +18,16 @@ public class User implements UserDetails, Serializable {
     @JsonIgnore
     Set<UserRole> userRoles = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     Set<UserPayment> userPayments = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     Set<UserShipping> userShippingList = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     Set<Order> orderList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     ShoppingCart shoppingCart;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

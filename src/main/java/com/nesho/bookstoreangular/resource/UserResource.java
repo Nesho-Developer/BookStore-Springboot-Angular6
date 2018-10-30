@@ -141,4 +141,9 @@ public class UserResource {
         return user;
     }
 
+    @RequestMapping("/users")
+    public Iterable<User> getAll() {
+        return userService.findAll();
+    }
+
 }

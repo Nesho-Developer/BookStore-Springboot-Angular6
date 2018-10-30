@@ -29,7 +29,8 @@ public class UserSecurityService implements UserDetailsService {
 
             builder = org.springframework.security.core.userdetails.User.withUsername(username);
             builder.password(user.getPassword());
-            builder.roles(user.getUserRoles().toString());
+            builder.authorities(user.getAuthorities());
+            System.out.println("************* = [" + user.getAuthorities().toString() + "]");
 
         } else {
             log.warn("user {} not found", username);

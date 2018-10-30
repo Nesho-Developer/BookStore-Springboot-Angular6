@@ -14,6 +14,8 @@ public interface UserService {
 
     Optional<User> findById(Long id);
 
+    Iterable<User> findAll();
+
     User save(User user);
 
     String findByUsernameAndPassword(String username, String passsword);

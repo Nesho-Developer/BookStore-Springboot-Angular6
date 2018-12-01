@@ -15,7 +15,7 @@ public class RequestFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-
+        System.out.println("**********************************88");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, x-auth-token");
@@ -38,7 +38,7 @@ public class RequestFilter implements Filter {
         }
     }
 
-    public void init(FilterConfig fConfig) throws ServletException {
+    public void init(FilterConfig fConfig) {
         // TODO Auto-generated method stub
     }
 

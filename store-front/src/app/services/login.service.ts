@@ -9,6 +9,8 @@ export class LoginService {
 
   private serverPath: string = AppConst.serverPath;
   private authToken;
+  private client_id: string = "bookstore";
+  private client_secret: string = "password";
 
   constructor(private http: HttpClient) {
   }
@@ -18,20 +20,27 @@ export class LoginService {
   }
 
   sendCredential(username: string, password: string) {
-    let url = 'http://localhost:8080/login';
+    let url = 'http://localhost:8080/oauth/token';
     let userInfo = {
-      'username': username, "password": password
+      'username': username, "password": password, 'grant_type': "password"
     };
-    let encodedCredential = btoa(username + ":" + password);
+    let bo = new FormData();
+    bo.append('username', username);
+    bo.append('password', password);
+    bo.append('grant_type', 'password');
+    let bodySerialized = 'password=' + password + '&username=' + 'username&grant_type=password';
+    console.log(bodySerialized);
+    let encodedCredential = btoa(this.client_id + ":" + this.client_secret);
     let basicHeader = 'Basic ' + encodedCredential;
     this.authToken = basicHeader;
-    localStorage.setItem('Authorization', basicHeader);
+    // localStorage.setItem('Authorization', basicHeader);
+    console.log(basicHeader);
     let headers = new HttpHeaders({
-      'ContentType': 'application/x-www-form-urlencoded',
+      // 'ContentType': 'application/form-data',
       'Authorization': basicHeader
     });
 
-    return this.http.post(url, userInfo, {responseType: 'text', observe: 'response'});
+    return this.http.post(url, bo, {headers: headers});
   }
 
   checkSession() {

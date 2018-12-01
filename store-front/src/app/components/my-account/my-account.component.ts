@@ -42,7 +42,8 @@ export class MyAccountComponent implements OnInit {
     this.errorMessage = '';
     this.loginService.sendCredential(this.credential.username, this.credential.password).subscribe(
       res => {
-        //localStorage.setItem('xAuthToken2',res.body);
+        console.log(res['access_token']);
+        localStorage.setItem('Authorization', 'Bearer ' + res['access_token']);
         this.loggedIn = true;
         location.reload();
         this.router.navigate(['/home']);

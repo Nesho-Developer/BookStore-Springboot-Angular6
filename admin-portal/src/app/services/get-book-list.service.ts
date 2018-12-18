@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 
@@ -13,10 +13,8 @@ export class GetBookListService {
 
   getBookList(): Observable<any> {
     const url = 'http://localhost:8080/book/book-list';
-    let headers = new HttpHeaders({
-      'x-auth-token': localStorage.getItem('xAuthToken')
-    });
-    return this.http.get(url, {headers: headers, responseType: 'text'});
+
+    return this.http.get(url, {responseType: 'text'});
   }
 
 }

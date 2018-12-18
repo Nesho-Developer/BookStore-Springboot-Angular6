@@ -32,7 +32,7 @@ export class UploadImageService {
         formData.append('uploads[]', file, file.name);
       }
 
-      console.log(formData.getAll('uploads[]'));
+      // console.log(formData.getAll('uploads[]'));
 
 
       xhr.onreadystatechange = function () {

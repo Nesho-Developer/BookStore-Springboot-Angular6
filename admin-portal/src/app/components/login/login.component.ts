@@ -19,11 +19,12 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginService.sendCredemtial(this.credential).subscribe(
       data => {
-        console.log('success', data);
+        localStorage.setItem('Authorization', 'Bearer ' + data['access_token']);
 
         //this.router.navigateByUrl('/');
-        localStorage.setItem('xAuthToken', data['token']);
         this.LoggedIn = true;
+        // this.router.navigate(['/']);
+
         location.reload();
       },
       error => {

@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {
   MatButtonModule,
   MatIconModule,
@@ -37,6 +37,8 @@ import {EditBookService} from "./services/edit-book.service";
 import {RemoveBookService} from "./services/remove-book.service";
 import {ViewBookComponent} from './components/view-book/view-book.component';
 import {EditBookComponent} from './components/edit-book/edit-book.component';
+import {RouterModule} from "@angular/router";
+import {AppInterceptor} from "./AppInterceptor";
 
 @NgModule({
   declarations: [
@@ -54,7 +56,7 @@ import {EditBookComponent} from './components/edit-book/edit-book.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    AppRouting,
+    AppRouting, RouterModule,
     MatButtonModule,
     MatCheckboxModule, MatCardModule, MatListModule, MatDialogModule,
     MatTableModule, MatCheckboxModule, MatPaginatorModule, MatProgressSpinnerModule,
@@ -73,7 +75,12 @@ import {EditBookComponent} from './components/edit-book/edit-book.component';
     GetBookListService,
     GetBookService,
     EditBookService,
-    RemoveBookService
+    RemoveBookService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogResultExampleDialog]

@@ -15,7 +15,6 @@ export class AddNewBookService {
     let headers: HttpHeaders = new HttpHeaders({
 
       'Content-Type': 'application/json',
-      'x-auth-token': localStorage.getItem('xAuthToken')
     });
     return this.http.post(url, JSON.stringify(book), {headers: headers});
 

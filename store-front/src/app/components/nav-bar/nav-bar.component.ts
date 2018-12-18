@@ -57,7 +57,7 @@ export class NavBarComponent implements OnInit {
         this.LoggedIn = true;
       },
       err => {
-        console.log(err['error']);
+        // console.log(err['error']);
         this.LoggedIn = false;
       }
     );

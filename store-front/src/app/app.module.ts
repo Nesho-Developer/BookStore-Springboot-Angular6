@@ -8,7 +8,7 @@ import {HomeComponent} from './components/home/home.component';
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MyAccountComponent} from './components/my-account/my-account.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {
   MatButtonModule,
   MatInputModule,
@@ -34,6 +34,8 @@ import {OrderComponent} from './components/order/order.component';
 import {OrderService} from "./services/order.service";
 import {CheckoutService} from "./services/checkout.service";
 import {OrderSummaryComponent} from './components/order-summary/order-summary.component';
+import {AppInterceptor} from "./AppInterceptor";
+
 
 
 @NgModule({
@@ -59,12 +61,12 @@ import {OrderSummaryComponent} from './components/order-summary/order-summary.co
   ],
   providers: [LoginService, UserService, PaymentService, ShippingService,
     BookService, CartService, OrderService, CheckoutService,
-    // InterceptService,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: InterceptService,
-    //   multi: true
-    // }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppInterceptor,
+      multi: true
+    }
+
   ],
   bootstrap: [AppComponent]
 })

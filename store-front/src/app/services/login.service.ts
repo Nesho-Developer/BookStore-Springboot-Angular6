@@ -45,21 +45,15 @@ export class LoginService {
 
   checkSession() {
     let url = 'http://localhost:8080/checkSession';
-    let headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('Authorization')
-    });
+
     console.log('checkSession');
 
-    return this.http.get(url, {headers: headers, responseType: 'text'});
+    return this.http.get(url, { responseType: 'text'});
   }
 
   logout() {
     let url = 'http://localhost:8080/userLogout';
 
-    let headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('Authorization')
-    });
-
-    return this.http.post(url, '', {headers: headers, responseType: 'text'});
+    return this.http.post(url, '', { responseType: 'text'});
   }
 }

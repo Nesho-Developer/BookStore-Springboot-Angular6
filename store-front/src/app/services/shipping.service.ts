@@ -13,37 +13,25 @@ export class ShippingService {
 
   newShipping(shipping: UserShipping) {
     let url = 'http://localhost:8080/shipping/add';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, shipping, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, shipping, { responseType: 'text'});
   }
 
   getUserShippingList() {
     let url = 'http://localhost:8080/shipping/getAll';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.get(url, {headers: headers, responseType: 'text'});
+
+    return this.http.get(url, {responseType: 'text'});
   }
 
   removeShipping(id: number) {
     let url = 'http://localhost:8080/shipping/remove';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, id, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, id, { responseType: 'text'});
   }
 
   setDefaultShipping(id: number) {
     let url = 'http://localhost:8080/shipping/setDefault';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, id, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, id, { responseType: 'text'});
   }
 }

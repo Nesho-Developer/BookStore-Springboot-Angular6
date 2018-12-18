@@ -11,10 +11,7 @@ export class OrderService {
 
   getOrderList() {
     let url = 'http://localhost:8080/order/getOrderList';
-    let headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('Authorization')
-    });
 
-    return this.http.get(url, {headers: headers});
+    return this.http.get(url);
   }
 }

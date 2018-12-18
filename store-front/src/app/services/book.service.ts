@@ -11,30 +11,18 @@ export class BookService {
 
   getBookList() {
     let url = 'http://localhost:8080/book/book-list';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.get(url, {headers: headers}).pipe(
+    return this.http.get(url).pipe(
       // catchError()
     );
   }
 
   getBook(id: number) {
     let url = 'http://localhost:8080/book/' + id;
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.get(url, {headers: headers, responseType: 'text'});
+    return this.http.get(url, { responseType: 'text'});
   }
 
   searchBook(keyWord: string) {
     let url = 'http://localhost:8080/book/searchBook';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, keyWord, {headers: headers});
+    return this.http.post(url, keyWord);
   }
 }

@@ -18,10 +18,6 @@ export class UserService {
     let userInfo = {
       'username': username, "email": email
     };
-    let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
 
     return this.http.post(url, (userInfo), {responseType: 'text'});
 
@@ -29,11 +25,8 @@ export class UserService {
 
   retrivePassword(recoverEmail: string) {
     let url = 'http://localhost:8080/user/forgetPassword';
-    let headers = new HttpHeaders({
-      // 'Content-Type':'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.post(url, recoverEmail, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, recoverEmail, { responseType: 'text'});
   }
 
   updateUserInfo(user: User, newPassword: string, currentPassword: string) {
@@ -47,21 +40,15 @@ export class UserService {
       "email": user.email,
       "newPassword": newPassword
     };
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem("Authorization")
-    });
-    return this.http.post(url, userInfo, {headers: headers});
+
+    return this.http.post(url, userInfo);
 
   }
 
   getCurrentUser() {
     let url = 'http://localhost:8080/user/getCurrentUser';
-    let headers = new HttpHeaders({
-      // 'Content-Type':'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.get(url, {headers: headers});
+
+    return this.http.get(url);
 
   }
 }

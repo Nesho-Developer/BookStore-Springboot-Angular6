@@ -16,31 +16,22 @@ export class CartService {
       'qty': qty
 
     }
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, itemInfo, {headers: headers});
+
+    return this.http.post(url, itemInfo);
   }
 
   getCartItemList() {
     let url = 'http://localhost:8080/cart/getCartItemList';
 
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.get(url, {headers: headers});
+
+    return this.http.get(url);
   }
 
   getShoppingCart() {
     let url = 'http://localhost:8080/cart/getShoppingCart';
 
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.get(url, {headers: headers});
+
+    return this.http.get(url);
   }
 
   updateCartItem(id: number, qty: number) {
@@ -50,20 +41,14 @@ export class CartService {
       'qty': qty
 
     }
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, itemInfo, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, itemInfo, { responseType: 'text'});
   }
 
   removeCartItem(id: number) {
     let url = 'http://localhost:8080/cart/removeItem';
-    let headers = new HttpHeaders({
-        'Authorization': localStorage.getItem('Authorization')
-      }
-    );
-    return this.http.post(url, id, {headers: headers});
+
+    return this.http.post(url, id);
   }
 
 }

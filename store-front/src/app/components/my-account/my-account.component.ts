@@ -110,7 +110,7 @@ export class MyAccountComponent implements OnInit {
       },
       err => {
         this.loggedIn = false;
-        console.log(err['error']);
+        // console.log(err['error']);
       }
     );
   }

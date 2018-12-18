@@ -95,18 +95,15 @@ export class MyProfileComponent implements OnInit {
     this.userService.getCurrentUser().subscribe(
       res => {
         this.user = JSON.parse(JSON.stringify(res));
-        console.log(this.user);
         this.userPayments = this.user.userPayments;
         this.userShippingList = this.user.userShippingList;
         for (let index in this.userPayments) {
-          console.log(index);
           if (this.userPayments[index].defaultPayment) {
             this.defaultUserPaymentId = this.userPayments[index].id;
             break;
           }
         }
         for (let index in this.userShippingList) {
-          console.log(index);
           if (this.userShippingList[index].userShippingDefault) {
             this.defaultUserShippingId = this.userShippingList[index].id;
             break;

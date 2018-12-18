@@ -13,37 +13,23 @@ export class PaymentService {
   newPayment(payment: UserPayment) {
     console.log(payment.expiryYear);
     let url = 'http://localhost:8080/payment/add';
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.post(url, payment, {headers: headers, responseType: 'text'});
+    return this.http.post(url, payment, { responseType: 'text'});
   }
 
   getUserPaymentList() {
     let url = 'http://localhost:8080/payment/getUserPayments';
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.get(url, {headers: headers});
+    return this.http.get(url);
   }
 
   removePayment(id: number) {
     let url = 'http://localhost:8080/payment/remove';
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.post(url, id, {headers: headers, responseType: 'text'});
+
+    return this.http.post(url, id, { responseType: 'text'});
   }
 
   setDefaultPayment(id: number) {
     let url = 'http://localhost:8080/payment/setDefault';
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.post(url, id, {headers: headers});
+
+    return this.http.post(url, id);
   }
 }

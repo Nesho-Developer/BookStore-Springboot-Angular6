@@ -30,18 +30,13 @@ export class CheckoutService {
     //     shippingMethod
     // ];
     console.log('@@@', order);
-    let headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('Authorization')
-    });
-    return this.http.post(url, (order), {headers: headers});
+
+    return this.http.post(url, (order));
   }
 
   getUserOrder() {
     let url = 'http://localhost:8080/checkOut/getUserOrder';
-    let headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('Authorization')
-    });
 
-    return this.http.get(url, {headers: headers});
+    return this.http.get(url);
   }
 }
